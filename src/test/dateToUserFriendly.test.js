@@ -55,8 +55,8 @@ describe('dateToUserFriendly A2 Month, Date, Day, HH:MM', () => {
     it(`${dateTimeStr}의 format A2 결과는 '12/17(화) 18:35' 이다 `, () => {
         assert.equal(dateToUserFriendly(now, 'A2'), '12/17(화) 18:35')
     })
-    it(`${dateTimeStr}의 format A2, lang:'jp' 결과는 'Dec 17 Tue 18:35' 이다 `, () => {
-        assert.equal(dateToUserFriendly(now, 'A2', {lang: 'jp'}), 'Dec 17 Tue 18:35')
+    it(`${dateTimeStr}의 format A2, lang:'jp' 결과는 '2019-12-17 Tue 18:35' 이다 `, () => {
+        assert.equal(dateToUserFriendly(now, 'A2', {lang: 'jp'}), '2019-12-17 Tue 18:35')
     })
     it(`${dateTimeStr}의 format A2, timezone: 'utc' 결과는 '12/17(화) 09:35' 이다 `, () => {
         assert.equal(dateToUserFriendly(now, 'A2', {timezone: {type: 'utc'}}), '12/17(화) 09:35')
@@ -64,8 +64,8 @@ describe('dateToUserFriendly A2 Month, Date, Day, HH:MM', () => {
     it(`${dateTimeStr}의 format A2, timezone: 중국 결과는 '12/17(화) 17:35' 이다 `, () => {
         assert.equal(dateToUserFriendly(now, 'A2', {timezone: {type: 'gmtOffset', gmtOffset: 480}}), '12/17(화) 17:35')
     })
-    it(`${dateTimeStr}의 format A2, lang:'en', timezone: 뉴욕 -300 결과는 'Dec 17 Tue 04:35' 이다 `, () => {
-        assert.equal(dateToUserFriendly(now, 'A2', {lang: 'en', timezone: {type: 'gmtOffset', gmtOffset: -300}}), 'Dec 17 Tue 04:35')
+    it(`${dateTimeStr}의 format A2, lang:'en', timezone: 뉴욕 -300 결과는 '2019-12-17 Tue 04:35' 이다 `, () => {
+        assert.equal(dateToUserFriendly(now, 'A2', {lang: 'en', timezone: {type: 'gmtOffset', gmtOffset: -300}}), '2019-12-17 Tue 04:35')
     })
 })
 

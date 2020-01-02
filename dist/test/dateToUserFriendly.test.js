@@ -81,10 +81,10 @@ describe('dateToUserFriendly A2 Month, Date, Day, HH:MM', function () {
   it("".concat(dateTimeStr, "\uC758 format A2 \uACB0\uACFC\uB294 '12/17(\uD654) 18:35' \uC774\uB2E4 "), function () {
     _chai.assert.equal((0, _dateFormat.dateToUserFriendly)(now, 'A2'), '12/17(화) 18:35');
   });
-  it("".concat(dateTimeStr, "\uC758 format A2, lang:'jp' \uACB0\uACFC\uB294 'Dec 17 Tue 18:35' \uC774\uB2E4 "), function () {
+  it("".concat(dateTimeStr, "\uC758 format A2, lang:'jp' \uACB0\uACFC\uB294 '2019-12-17 Tue 18:35' \uC774\uB2E4 "), function () {
     _chai.assert.equal((0, _dateFormat.dateToUserFriendly)(now, 'A2', {
       lang: 'jp'
-    }), 'Dec 17 Tue 18:35');
+    }), '2019-12-17 Tue 18:35');
   });
   it("".concat(dateTimeStr, "\uC758 format A2, timezone: 'utc' \uACB0\uACFC\uB294 '12/17(\uD654) 09:35' \uC774\uB2E4 "), function () {
     _chai.assert.equal((0, _dateFormat.dateToUserFriendly)(now, 'A2', {
@@ -101,14 +101,14 @@ describe('dateToUserFriendly A2 Month, Date, Day, HH:MM', function () {
       }
     }), '12/17(화) 17:35');
   });
-  it("".concat(dateTimeStr, "\uC758 format A2, lang:'en', timezone: \uB274\uC695 -300 \uACB0\uACFC\uB294 'Dec 17 Tue 04:35' \uC774\uB2E4 "), function () {
+  it("".concat(dateTimeStr, "\uC758 format A2, lang:'en', timezone: \uB274\uC695 -300 \uACB0\uACFC\uB294 '2019-12-17 Tue 04:35' \uC774\uB2E4 "), function () {
     _chai.assert.equal((0, _dateFormat.dateToUserFriendly)(now, 'A2', {
       lang: 'en',
       timezone: {
         type: 'gmtOffset',
         gmtOffset: -300
       }
-    }), 'Dec 17 Tue 04:35');
+    }), '2019-12-17 Tue 04:35');
   });
 });
 describe('dateToUserFriendly A3: Month, Date, Day, HH', function () {

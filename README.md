@@ -6,7 +6,7 @@ Date and time utilities for Airy/MiseBig
 ```
 $ npm i -S https://github.com/HerbertLim/airy-datetime.git
 
-import {dateToUserFriendly} from 'misebig-util';
+import {dateToUserFriendly} from 'airy-datetime';
 ```
 
 # Date Format
@@ -24,7 +24,7 @@ Generates user friendly date time string from JS Date.
   - en: `Apr 23 Mon 19:00`   
 - A2: Month, Date, Day, HH:MM
   - ko: `4/23(월) 19:23`
-  - en: `Apr 23 Mon 19:23`
+  - en: `2019-04-23 Mon 19:23`
 - A3: Month, Date, Day, HH
   - ko: `4/23(월) 19시`
   - en: `Apr 23 Mon 19H`

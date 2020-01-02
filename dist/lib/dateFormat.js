@@ -17,6 +17,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 var krDays = ['일', '월', '화', '수', '목', '금', '토'];
 var enDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 var validFormats = ['A1', 'A2', 'A3', 'A4', 'B1', 'B2', 'B3', 'B4', 'C1'];
 
 function dateToUserFriendly(jsDate, format, option) {
@@ -52,9 +53,7 @@ function dateToUserFriendly(jsDate, format, option) {
   var fullYear = finalDate.getFullYear();
   var month = finalDate.getMonth() + 1;
   var month2 = month < 10 ? '0' + month : month;
-  var month3 = new Intl.DateTimeFormat('en-US', {
-    month: 'short'
-  }).format(finalDate);
+  var month3 = months[finalDate.getMonth()];
   var date = finalDate.getDate();
   var date2 = date < 10 ? '0' + date : date;
   var day = isKorean ? krDays[finalDate.getDay()] : enDays[finalDate.getDay()];
@@ -71,7 +70,7 @@ function dateToUserFriendly(jsDate, format, option) {
       break;
 
     case 'A2':
-      finalDateStr = monthDateDay + ' ' + hour2 + ':' + min;
+      finalDateStr = isKorean ? monthDateDay + ' ' + hour2 + ':' + min : "".concat(fullYear, "-").concat(month2, "-").concat(date2, " ").concat(day, " ").concat(hour2, ":").concat(min2);
       break;
 
     case 'A3':
@@ -131,32 +130,6 @@ function dateToUserFriendly(jsDate, format, option) {
       }
 
       break;
-
-    /*
-    case 'B4':
-    const label = isKorean ? (isPublished ? '발표' : '평균') : (isPublished ? 'Published' : 'Average')
-    let finalHour = isKorean ? hour : hour2;
-    if (isPublished) {
-        finalDateStr = isKorean ?
-                `${fullYear}년 ${month}/${date}(${day}) ${finalHour}시 ${label}` :
-                `${label}: ${fullYear}-${month2}-${date2} ${day} ${finalHour}:00`;
-    } else {
-        const measuredDate = new Date(finalDate.getTime() - 1000*3600)
-        const fullYear = measuredDate.getFullYear()
-        const month = measuredDate.getMonth() + 1;
-        const month2 = month < 10 ? '0' + month : month;
-        const date = measuredDate.getDate()
-        const date2 = date < 10 ? '0' + date : date;
-        const day = isKorean ? krDays[measuredDate.getDay()] : enDays[measuredDate.getDay()];
-        const hour = measuredDate.getHours()
-        const hour2 = hour < 10 ? '0' + hour : hour;
-        const enTail = isPublished ? ':00' : ':00~59';
-         finalDateStr = isKorean ?
-                `${fullYear}년 ${month}/${date}(${day}) ${hour}시 ${label}` :
-                `${label}: ${fullYear}-${month2}-${date2} ${day} ${hour2}${enTail}`;
-    }
-     break;
-    */
 
     case 'C1':
       finalDateStr = hourStr + ':00';
