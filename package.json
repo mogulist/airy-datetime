@@ -2,11 +2,13 @@
   "name": "airy-datetime",
   "version": "1.0.0",
   "description": "Date and Time utilities for Airy",
-  "main": "./dist/lib/time.js",
-  "module": "./src/lib/time.js",
+  "main": "./dist/lib/index.js",
+  "module": "./src/lib/index.js",
   "scripts": {
-    "build": "babel src -d dist",
-    "test": "node test/test"
+    "build": "babel src -d dist --source-maps",
+    "test-date": "npm run build && mocha dist/test/dateToUserFriendly.test.js || true",
+    "test-ecoa": "npm run build && mocha dist/test/ecoaTime.test.js || true",
+    "test-all": "npm run build && mocha ./dist/test/**/*.js || true"
   },
   "author": "Herbert Lim",
   "license": "ISC",
