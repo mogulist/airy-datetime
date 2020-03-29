@@ -75,12 +75,22 @@ Note: 0:00 is represented as 24:00. For example, 2018-01-01 00:00 is 2017123124 
 
 
 ## `jsDateToEcoaTime(jsDate)`
-Converts Javascript Date to `ecoaTime`. 
+Converts Javascript Date to `ecoaTime`. Always set minutes to '00'. If `jsDate` is `2020-03-15 16:33:01`, ecoaTime is `202003151600`.
 
-Params
+### Params
 - date: Javascript Date object
 
-Returns
+### Returns
+- ecoaTime
+- null if parameter is invalid or undefined
+
+## `jsDateToEcoaTimeMinute(jsDate)`
+Converts Javascript Date to `ecoaTime` including minutes. If `jsDate` is `2020-03-15 16:33:01`, ecoaTime is `202003151633`.
+
+### Params
+- date: Javascript Date object
+
+### Returns
 - ecoaTime
 - null if parameter is invalid or undefined
 
@@ -88,10 +98,10 @@ Returns
 ## `ecoaTimeToJsDate(ecoaTime)`
 Converts ecoaTime to Javascript Date object.
 
-Params
+### Params
 - ecoaTime
 
-Returns
+### Returns
 - date: Javascript Date object
 - null if parameter is invalid or undefined
 

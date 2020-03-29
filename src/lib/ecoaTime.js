@@ -5,37 +5,34 @@ export function jsDateToEcoaTime(jsDate) {
     if (typeof jsDate == 'undefined') return null;
 
     const date = new Date(jsDate);
-    let dateDecr = null;
-    if (date.getHours() == 0) {
-        dateDecr = new Date(date.getTime() - 24*3600*1000);
-    } else {
-        dateDecr = date;
-    }
+    const dateDecr = getRightDateForEcoatime(date)
 
-    let month = '';
-    if (dateDecr.getMonth() < 9) {
-        month = '0' + (dateDecr.getMonth() + 1);
-    } else {
-        month = '' + (dateDecr.getMonth() + 1);
-    }
+    const yearStr = dateDecr.getFullYear()
+    const monthStr = getTwoDigitString(dateDecr.getMonth() + 1)
+    const dateStr = getTwoDigitString(dateDecr.getDate())
+    const hours = date.getHours()
+    const hoursStr = hours == 0 ? '24' : getTwoDigitString(hours)
 
-    let dateStr = '';
-    if (dateDecr.getDate() < 10) {
-        dateStr = '0' + dateDecr.getDate();
-    } else {
-        dateStr = '' + dateDecr.getDate();
-    }
+    return yearStr + monthStr + dateStr + hoursStr + '00';
+}
 
-    let hoursStr = '';
-    if (date.getHours() == 0) { 
-        hoursStr = '24';
-    } else if (date.getHours() < 10) {
-        hoursStr = '0' + date.getHours();
-    } else {
-        hoursStr = '' + date.getHours();
-    }
+/*
+ * Converts Javascript Date to ecoaTime including MINUTES
+ */
+export function jsDateToEcoaTimeMinute(jsDate) {
+    if (typeof jsDate == 'undefined') return null;
 
-    return dateDecr.getFullYear()+ '' + month + dateStr + hoursStr + '00';
+    const date = new Date(jsDate)
+    const dateDecr = getRightDateForEcoatime(date)
+
+    const yearStr = dateDecr.getFullYear()
+    const monthStr = getTwoDigitString(dateDecr.getMonth() + 1)
+    const dateStr = getTwoDigitString(dateDecr.getDate())
+    const hours = date.getHours()
+    const hoursStr = hours == 0 ? '24' : getTwoDigitString(hours)
+    const minutesStr = getTwoDigitString(date.getMinutes())
+
+    return yearStr + monthStr + dateStr + hoursStr + minutesStr;
 }
 
 // convert ecoaTime to standard JS Date object
@@ -77,6 +74,20 @@ export function ecoaTimeToJsDate(ecoaTime) {
     }
 
     return now;
+}
+
+/*
+ * If it is 0 hour, date should be changed to yesterday and hour should be 24
+ */
+function getRightDateForEcoatime(date) {
+    return date.getHours() == 0 ? new Date(date.getTime() - 24*3600*1000) : date;
+}
+
+/*
+ * returns two digit string with zero padded at start if needed
+ */
+function getTwoDigitString(number) {
+    return number < 10 ? '0' + number.toString() : number.toString()
 }
 
 

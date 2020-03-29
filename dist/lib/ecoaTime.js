@@ -4,6 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.jsDateToEcoaTime = jsDateToEcoaTime;
+exports.jsDateToEcoaTimeMinute = jsDateToEcoaTimeMinute;
 exports.ecoaTimeToJsDate = ecoaTimeToJsDate;
 exports.convJsDateToEcoaTime = convJsDateToEcoaTime;
 
@@ -13,41 +14,53 @@ exports.convJsDateToEcoaTime = convJsDateToEcoaTime;
 function jsDateToEcoaTime(jsDate) {
   if (typeof jsDate == 'undefined') return null;
   var date = new Date(jsDate);
-  var dateDecr = null;
-
-  if (date.getHours() == 0) {
-    dateDecr = new Date(date.getTime() - 24 * 3600 * 1000);
-  } else {
-    dateDecr = date;
-  }
-
-  var month = '';
-
+  var dateDecr = getRightDateForEcoatime(date);
+  var yearStr = dateDecr.getFullYear();
+  var monthStr = getTwoDigitString(dateDecr.getMonth() + 1);
+  var dateStr = getTwoDigitString(dateDecr.getDate());
+  var hours = date.getHours();
+  var hoursStr = hours == 0 ? '24' : getTwoDigitString(hours);
+  return yearStr + monthStr + dateStr + hoursStr + '00';
+  /*
+   let month = '';
   if (dateDecr.getMonth() < 9) {
-    month = '0' + (dateDecr.getMonth() + 1);
+      month = '0' + (dateDecr.getMonth() + 1);
   } else {
-    month = '' + (dateDecr.getMonth() + 1);
+      month = '' + (dateDecr.getMonth() + 1);
   }
-
-  var dateStr = '';
-
+   let dateStr = '';
   if (dateDecr.getDate() < 10) {
-    dateStr = '0' + dateDecr.getDate();
+      dateStr = '0' + dateDecr.getDate();
   } else {
-    dateStr = '' + dateDecr.getDate();
+      dateStr = '' + dateDecr.getDate();
   }
-
-  var hoursStr = '';
-
-  if (date.getHours() == 0) {
-    hoursStr = '24';
+   let hoursStr = '';
+  if (date.getHours() == 0) { 
+      hoursStr = '24';
   } else if (date.getHours() < 10) {
-    hoursStr = '0' + date.getHours();
+      hoursStr = '0' + date.getHours();
   } else {
-    hoursStr = '' + date.getHours();
+      hoursStr = '' + date.getHours();
   }
+   return dateDecr.getFullYear()+ '' + month + dateStr + hoursStr + '00';
+  */
+}
+/*
+ * Converts Javascript Date to ecoaTime including MINUTES
+ */
 
-  return dateDecr.getFullYear() + '' + month + dateStr + hoursStr + '00';
+
+function jsDateToEcoaTimeMinute(jsDate) {
+  if (typeof jsDate == 'undefined') return null;
+  var date = new Date(jsDate);
+  var dateDecr = getRightDateForEcoatime(date);
+  var yearStr = dateDecr.getFullYear();
+  var monthStr = getTwoDigitString(dateDecr.getMonth() + 1);
+  var dateStr = getTwoDigitString(dateDecr.getDate());
+  var hours = date.getHours();
+  var hoursStr = hours == 0 ? '24' : getTwoDigitString(hours);
+  var minutesStr = getTwoDigitString(date.getMinutes());
+  return yearStr + monthStr + dateStr + hoursStr + minutesStr;
 } // convert ecoaTime to standard JS Date object
 // 24시인 경우 23시 기준 JS Date를 구한 후 다시 1시간을 더하여 JS Date를 만든다
 // 실제 시간이 2018년 1월 1일 0시일 때, EcoaTime은 2017123124 로 표현된다
@@ -81,6 +94,22 @@ function ecoaTimeToJsDate(ecoaTime) {
   }
 
   return now;
+}
+/*
+ * If it is 0 hour, date should be changed to yesterday and hour should be 24
+ */
+
+
+function getRightDateForEcoatime(date) {
+  return date.getHours() == 0 ? new Date(date.getTime() - 24 * 3600 * 1000) : date;
+}
+/*
+ * returns two digit string with zero padded at start if needed
+ */
+
+
+function getTwoDigitString(number) {
+  return number < 10 ? '0' + number.toString() : number.toString();
 }
 /*
  * jsDate 를 ecoaTime 으로 변환
