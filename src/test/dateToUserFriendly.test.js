@@ -3,8 +3,10 @@ import {dateToUserFriendly} from '../lib/dateFormat';
 
 const dateTimeStr = '2019-12-17 18:35:47';
 const dateTimeStr2 = '2020-01-01 0:35:47';
+const dateTimeStr3 = '2020-03-04 07:05:47';
 const now = new Date(dateTimeStr)
 const now2 = new Date(dateTimeStr2)
+const now3 = new Date(dateTimeStr3)
 
 describe('dateToUserFriendly 파라미터 오류 체크', () => {
     it(`${dateTimeStr}의 파리미터 없으면 null 이다 `, () => {
@@ -55,6 +57,9 @@ describe('dateToUserFriendly A2 Month, Date, Day, HH:MM', () => {
     it(`${dateTimeStr}의 format A2 결과는 '12/17(화) 18:35' 이다 `, () => {
         assert.equal(dateToUserFriendly(now, 'A2'), '12/17(화) 18:35')
     })
+    it(`${dateTimeStr3}의 format A2 결과는 '3/4(화) 07:05' 이다 `, () => {
+        assert.equal(dateToUserFriendly(now3, 'A2'), '3/4(수) 07:05')
+    })
     it(`${dateTimeStr}의 format A2, lang:'jp' 결과는 '2019-12-17 Tue 18:35' 이다 `, () => {
         assert.equal(dateToUserFriendly(now, 'A2', {lang: 'jp'}), '2019-12-17 Tue 18:35')
     })
@@ -72,6 +77,9 @@ describe('dateToUserFriendly A2 Month, Date, Day, HH:MM', () => {
 describe('dateToUserFriendly A3: Month, Date, Day, HH', () => {
     it(`${dateTimeStr}의 format A3 결과는 '12/17(화) 18시' 이다 `, () => {
         assert.equal(dateToUserFriendly(now, 'A3'), '12/17(화) 18시')
+    })
+    it(`${dateTimeStr3}의 format A3 결과는 '3/4(수) 7시' 이다 `, () => {
+        assert.equal(dateToUserFriendly(now3, 'A3'), '3/4(수) 7시')
     })
     it(`${dateTimeStr}의 format A3, 'au' 결과는 'Dec 17 Tue 18H' 이다 `, () => {
         assert.equal(dateToUserFriendly(now, 'A3', {lang: 'au'}), 'Dec 17 Tue 18H')

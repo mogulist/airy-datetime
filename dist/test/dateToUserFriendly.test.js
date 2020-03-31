@@ -6,8 +6,10 @@ var _dateFormat = require("../lib/dateFormat");
 
 var dateTimeStr = '2019-12-17 18:35:47';
 var dateTimeStr2 = '2020-01-01 0:35:47';
+var dateTimeStr3 = '2020-03-04 07:05:47';
 var now = new Date(dateTimeStr);
 var now2 = new Date(dateTimeStr2);
+var now3 = new Date(dateTimeStr3);
 describe('dateToUserFriendly 파라미터 오류 체크', function () {
   it("".concat(dateTimeStr, "\uC758 \uD30C\uB9AC\uBBF8\uD130 \uC5C6\uC73C\uBA74 null \uC774\uB2E4 "), function () {
     _chai.assert.equal((0, _dateFormat.dateToUserFriendly)(), null);
@@ -81,6 +83,9 @@ describe('dateToUserFriendly A2 Month, Date, Day, HH:MM', function () {
   it("".concat(dateTimeStr, "\uC758 format A2 \uACB0\uACFC\uB294 '12/17(\uD654) 18:35' \uC774\uB2E4 "), function () {
     _chai.assert.equal((0, _dateFormat.dateToUserFriendly)(now, 'A2'), '12/17(화) 18:35');
   });
+  it("".concat(dateTimeStr3, "\uC758 format A2 \uACB0\uACFC\uB294 '3/4(\uD654) 07:05' \uC774\uB2E4 "), function () {
+    _chai.assert.equal((0, _dateFormat.dateToUserFriendly)(now3, 'A2'), '3/4(수) 07:05');
+  });
   it("".concat(dateTimeStr, "\uC758 format A2, lang:'jp' \uACB0\uACFC\uB294 '2019-12-17 Tue 18:35' \uC774\uB2E4 "), function () {
     _chai.assert.equal((0, _dateFormat.dateToUserFriendly)(now, 'A2', {
       lang: 'jp'
@@ -114,6 +119,9 @@ describe('dateToUserFriendly A2 Month, Date, Day, HH:MM', function () {
 describe('dateToUserFriendly A3: Month, Date, Day, HH', function () {
   it("".concat(dateTimeStr, "\uC758 format A3 \uACB0\uACFC\uB294 '12/17(\uD654) 18\uC2DC' \uC774\uB2E4 "), function () {
     _chai.assert.equal((0, _dateFormat.dateToUserFriendly)(now, 'A3'), '12/17(화) 18시');
+  });
+  it("".concat(dateTimeStr3, "\uC758 format A3 \uACB0\uACFC\uB294 '3/4(\uC218) 7\uC2DC' \uC774\uB2E4 "), function () {
+    _chai.assert.equal((0, _dateFormat.dateToUserFriendly)(now3, 'A3'), '3/4(수) 7시');
   });
   it("".concat(dateTimeStr, "\uC758 format A3, 'au' \uACB0\uACFC\uB294 'Dec 17 Tue 18H' \uC774\uB2E4 "), function () {
     _chai.assert.equal((0, _dateFormat.dateToUserFriendly)(now, 'A3', {

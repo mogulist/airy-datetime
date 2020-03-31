@@ -70,7 +70,7 @@ function dateToUserFriendly(jsDate, format, option) {
       break;
 
     case 'A2':
-      finalDateStr = isKorean ? monthDateDay + ' ' + hour2 + ':' + min : "".concat(fullYear, "-").concat(month2, "-").concat(date2, " ").concat(day, " ").concat(hour2, ":").concat(min2);
+      finalDateStr = isKorean ? monthDateDay + ' ' + hour2 + ':' + min2 : "".concat(fullYear, "-").concat(month2, "-").concat(date2, " ").concat(day, " ").concat(hour2, ":").concat(min2);
       break;
 
     case 'A3':

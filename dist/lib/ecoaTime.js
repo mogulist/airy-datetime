@@ -21,29 +21,6 @@ function jsDateToEcoaTime(jsDate) {
   var hours = date.getHours();
   var hoursStr = hours == 0 ? '24' : getTwoDigitString(hours);
   return yearStr + monthStr + dateStr + hoursStr + '00';
-  /*
-   let month = '';
-  if (dateDecr.getMonth() < 9) {
-      month = '0' + (dateDecr.getMonth() + 1);
-  } else {
-      month = '' + (dateDecr.getMonth() + 1);
-  }
-   let dateStr = '';
-  if (dateDecr.getDate() < 10) {
-      dateStr = '0' + dateDecr.getDate();
-  } else {
-      dateStr = '' + dateDecr.getDate();
-  }
-   let hoursStr = '';
-  if (date.getHours() == 0) { 
-      hoursStr = '24';
-  } else if (date.getHours() < 10) {
-      hoursStr = '0' + date.getHours();
-  } else {
-      hoursStr = '' + date.getHours();
-  }
-   return dateDecr.getFullYear()+ '' + month + dateStr + hoursStr + '00';
-  */
 }
 /*
  * Converts Javascript Date to ecoaTime including MINUTES

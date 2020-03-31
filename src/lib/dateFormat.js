@@ -51,7 +51,7 @@ export function dateToUserFriendly(jsDate, format, option) {
         break;
     case 'A2':
         finalDateStr = isKorean ?
-            monthDateDay + ' ' + hour2 + ':' + min :
+            monthDateDay + ' ' + hour2 + ':' + min2 :
             `${fullYear}-${month2}-${date2} ${day} ${hour2}:${min2}`;
         break;
     case 'A3':
