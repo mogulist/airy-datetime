@@ -107,6 +107,17 @@ Converts ecoaTime to Javascript Date object.
 
 If given ecoaTime is 24:00, create JS Date of previous date, and then add 1 hour.
 
+## `ecoaTimeTTL2ExpireAt(ecoaTime, ttl)`
+Returns expire date in msec, which is calculated from ecoaTime + TTL
+
+### Params
+- ecaoTime
+- ttl: Time To Live in msec
+
+### Returns
+expire date in UNIX timestamp (msec)
+
+&nbsp;
 
 # Etc
 
