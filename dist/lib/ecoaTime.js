@@ -7,6 +7,7 @@ exports.jsDateToEcoaTime = jsDateToEcoaTime;
 exports.jsDateToEcoaTimeMinute = jsDateToEcoaTimeMinute;
 exports.ecoaTimeToJsDate = ecoaTimeToJsDate;
 exports.convJsDateToEcoaTime = convJsDateToEcoaTime;
+exports.ecoaTimeTTL2ExpireAt = ecoaTimeTTL2ExpireAt;
 
 /*
  * Converts Javascript Date to ecoaTime.
@@ -108,5 +109,12 @@ function convJsDateToEcoaTime(jsDate) {
   var ecoaTime = '' + jsDate.getFullYear() + (month < 10 ? '0' + month : month) + (date < 10 ? '0' + date : date) + (hour < 10 ? '0' + hour : hour) + '00';
   console.log(ecoaTime);
   return ecoaTime;
+} // ttl: must be in msec
+
+
+function ecoaTimeTTL2ExpireAt(ecoaTime, ttl) {
+  var srcDate = ecoaTimeToJsDate(ecoaTime);
+  var expireDate = new Date(srcDate.getTime() + ttl);
+  return expireDate.getTime();
 }
 //# sourceMappingURL=ecoaTime.js.map

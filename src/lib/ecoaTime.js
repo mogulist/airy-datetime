@@ -119,7 +119,8 @@ export function convJsDateToEcoaTime(jsDate) {
 }
 
 // ttl: must be in msec
-export const ecoaTimeTTL2ExpireAt = (ecoaTime, ttl) => {
+
+export function ecoaTimeTTL2ExpireAt(ecoaTime, ttl) {
     const srcDate = ecoaTimeToJsDate(ecoaTime)
     const expireDate = new Date(srcDate.getTime() + ttl)
     return expireDate.getTime()
