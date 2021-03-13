@@ -1,25 +1,38 @@
-import _ from 'lodash';
-
 const krDays = ['일', '월', '화', '수', '목', '금', '토'];
 const enDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const validFormats = ['A1', 'A2', 'A3', 'A4', 'B1', 'B2', 'B3', 'B4', 'C1'];
 
-export function dateToUserFriendly(jsDate, format, option) {
-    const defaultOption = {lang:'ko', timezone:{type:'device'}, isPublished:true};
+export type DateToUserFriendlyTimezone = {
+    type: 'device' | 'utc' | 'local';
+    gmtOffset?: number;
+}
+
+export type DateToUserFriendlyOption = {
+    lang?: string;
+    timezone?: DateToUserFriendlyTimezone;
+    isPublished?: boolean;
+}
+
+export function dateToUserFriendly(
+    jsDate: Date, 
+    format: string, 
+    option?: DateToUserFriendlyOption
+): string {
+    const defaultOption = {lang:'ko', timezone:{type:'device'}, isPublished:true} as DateToUserFriendlyOption;
     const finalOption = option ? {...defaultOption, ...option} : defaultOption;
     const {lang, timezone, isPublished} = finalOption;
 
-    if (!jsDate || !_.isDate(jsDate) || !format || format.length != 2 || !validFormats.includes(format)) {
-        return null;
+    if (!jsDate || typeof jsDate.getDate !== 'function' || !format || format.length != 2 || !validFormats.includes(format)) {
+        return '';
     }
 
     let finalDate;
-    if (timezone.type === 'device') {
+    if (timezone?.type === 'device') {
         finalDate = jsDate;
     } else {
         const currentGmtOffset = -jsDate.getTimezoneOffset()
-        const gmtOffset = timezone.type == 'utc' ? 0 : timezone.gmtOffset ? timezone.gmtOffset : currentGmtOffset;
+        const gmtOffset = timezone?.type == 'utc' ? 0 : timezone?.gmtOffset ?? currentGmtOffset;
         const relativeOffset = gmtOffset - currentGmtOffset;
         finalDate = new Date(jsDate.getTime() + 60*1000*relativeOffset)
     }
@@ -40,10 +53,7 @@ export function dateToUserFriendly(jsDate, format, option) {
 
     const monthDateDay = isKorean ? `${month}/${date}(${day})` : `${month3} ${date} ${day}`;
 
-    let hourStr = hour.toString() 
-
-    //console.log(`isKorean:${isKorean}, lang=${lang}`)
-        
+    let hourStr = hour.toString()         
 
     switch (format) {
     case 'A1':
@@ -108,19 +118,49 @@ export function dateToUserFriendly(jsDate, format, option) {
         finalDateStr = hourStr + ':00';
         break;      
     default:
-        return null;
+        return '';
     }
                 
     return finalDateStr;
 }
 
-/*
-module.exports = {
-    getEcoaTime,
-    getEcoaTime2,
-    toEcoaTime,
-    getKstLambdaDate,
-    dateToUserFriendly,
-    ecoaTimeToJsDate,
+export function getLocalYMD(jsDate: Date, separator?: string): string {
+    const septr = separator || '';
+    const year = jsDate.getFullYear().toString()
+    const month = getMonth2Digits(jsDate)
+    const date = getDate2Digits(jsDate)
+    return year + septr + month + septr + date;
 }
-*/
+
+export function getLocalYMDH(jsDate: Date, separator?: string): string {
+    const septr = separator || '';
+    const year = jsDate.getFullYear()
+    const month = getMonth2Digits(jsDate)
+    const date = getDate2Digits(jsDate)
+    const hour = getHours2Digits(jsDate)
+    return year + septr + month + septr + date + septr + hour;
+}
+
+export function getLocalYM(jsDate: Date, separator?: string): string {
+    const septr = separator || '';
+    const year = jsDate.getFullYear()
+    const month = getMonth2Digits(jsDate)
+    return year + septr + month;
+}
+
+function getMonth2Digits(jsDate:Date): string {
+    return (jsDate.getMonth()+1).toString().padStart(2, '0')
+}
+
+function getDate2Digits(jsDate: Date): string {
+    return (jsDate.getDate().toString()).padStart(2, '0')
+}
+
+function getHours2Digits(jsDate: Date): string {
+    return (jsDate.getHours().toString()).padStart(2, '0')
+}
+
+function getMinutes2Digits(jsDate: Date): string {
+    return (jsDate.getMinutes().toString()).padStart(2, '0')
+}
+

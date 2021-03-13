@@ -1,7 +1,7 @@
 /*
  * Converts Javascript Date to ecoaTime.
  */
-export function jsDateToEcoaTime(jsDate) {
+export function jsDateToEcoaTime(jsDate?: Date): string|null {
     if (typeof jsDate == 'undefined') return null;
 
     const date = new Date(jsDate);
@@ -19,7 +19,7 @@ export function jsDateToEcoaTime(jsDate) {
 /*
  * Converts Javascript Date to ecoaTime including MINUTES
  */
-export function jsDateToEcoaTimeMinute(jsDate) {
+export function jsDateToEcoaTimeMinute(jsDate?: Date): string|null {
     if (typeof jsDate == 'undefined') return null;
 
     const date = new Date(jsDate)
@@ -35,15 +35,17 @@ export function jsDateToEcoaTimeMinute(jsDate) {
     return yearStr + monthStr + dateStr + hoursStr + minutesStr;
 }
 
-// convert ecoaTime to standard JS Date object
-// 24시인 경우 23시 기준 JS Date를 구한 후 다시 1시간을 더하여 JS Date를 만든다
-// 실제 시간이 2018년 1월 1일 0시일 때, EcoaTime은 2017123124 로 표현된다
-export function ecoaTimeToJsDate(ecoaTime) {
+/*
+ * convert ecoaTime to standard JS Date object
+ * 24시인 경우 23시 기준 JS Date를 구한 후 다시 1시간을 더하여 JS Date를 만든다
+ * 실제 시간이 2018년 1월 1일 0시일 때, EcoaTime은 2017123124 로 표현된다
+ */
+export function ecoaTimeToJsDate(ecoaTime?: string): Date|null {
     if (typeof ecoaTime == 'undefined') return null;
 
-    if (ecoaTime == 0) {
-        // time is 0 when misebig failed to connect to internet
-        // just return current time
+    // time is 0 when misebig failed to connect to internet
+    // just return current time
+    if (ecoaTime.toString() === '0') {
         const now = new Date()
         return new Date(
             now.getFullYear(), 
@@ -53,25 +55,15 @@ export function ecoaTimeToJsDate(ecoaTime) {
         )
     }
 
-    const hour = ecoaTime.substr(8,2)
-    let now = null;
-
-    if (hour === '24') {
-        //console.log(`hour is 24`)
-        now = new Date(ecoaTime.substr(0, 4),   // Year
-                    ecoaTime.substr(4, 2)-1,    // Month
-                    ecoaTime.substr(6, 2),      // Date
-                    '23',                   // Hour
-                    ecoaTime.substr(10, 2))
-        now = new Date(now.getTime() + 3600*1000)
-    } else {
-        //console.log(`hour is not 24`)
-        now = new Date(ecoaTime.substr(0, 4), 
-                    ecoaTime.substr(4, 2)-1,
-                    ecoaTime.substr(6, 2),
-                    ecoaTime.substr(8, 2),
-                    ecoaTime.substr(10, 2))
-    }
+    const hour = Number(ecoaTime.substr(8,2))
+    let now = new Date(
+        Number(ecoaTime.substr(0, 4)),      // Year
+        Number(ecoaTime.substr(4, 2))-1,    // Month
+        Number(ecoaTime.substr(6, 2)),      // Date
+        hour === 24 ? 23 : hour,            // Hour
+        Number(ecoaTime.substr(10, 2))
+    )
+    if (hour === 24) now = new Date(now.getTime() + 3600*1000)
 
     return now;
 }
@@ -89,7 +81,6 @@ function getRightDateForEcoatime(date) {
 function getTwoDigitString(number) {
     return number < 10 ? '0' + number.toString() : number.toString()
 }
-
 
 /*
  * jsDate 를 ecoaTime 으로 변환
@@ -118,10 +109,13 @@ export function convJsDateToEcoaTime(jsDate) {
     return ecoaTime;
 }
 
-// ttl: must be in msec
-
-export function ecoaTimeTTL2ExpireAt(ecoaTime, ttl) {
+/*
+ * ttl: must be in msec
+ */
+export function ecoaTimeTTL2ExpireAt(ecoaTime: string, ttl: number): number {
     const srcDate = ecoaTimeToJsDate(ecoaTime)
+    if (!srcDate) return 0;
+
     const expireDate = new Date(srcDate.getTime() + ttl)
     return expireDate.getTime()
 }
